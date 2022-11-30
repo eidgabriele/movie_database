@@ -76,7 +76,7 @@ class Media(models.Model):
     name = models.CharField(_('movie/series name'), max_length=150)
     release_date = models.DateField(_('release date'), null=True, blank=True)
     score = models.FloatField(_('score'), null=True, blank=True)
-    duration = models.IntegerField(_('duration'), blank=True, null=True)
+    duration = models.IntegerField(_('duration'), null=True, blank=True)
     is_series = models.BooleanField(_('is series?'), default=False)
     poster = models.ImageField(_('poster'), upload_to='posters', blank=True, null=True)
     trailer = models.CharField(_('trailer link'), max_length=255, blank=True, null=True)
@@ -92,26 +92,32 @@ class Media(models.Model):
     language = models.ManyToManyField(Language, verbose_name=_('language'), blank=True, null=True)
     
     def __str__(self) -> str:
-        return f"{self.name}, {self.release_date}"
+        return f"{self.name}, {self.release_date.strftime('%Y')}"
 
 
 class CastCrew(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name=_("role"))
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name=_("person"))
-    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name=_("role"), related_name='cast_crew')
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name=_("person"), related_name='cast_crew')
+    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE, related_name='cast_crew')
 
     def __str__(self) -> str:
         return f"{self.person} - {self.role} ({self.media})"
 
     
 class Season(models.Model):
-    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE, related_name="seasons")
     number = models.IntegerField(_("season number"), null=True, blank=True)
     
+    def __str__(self) ->str:
+        return f"{self.number} - {self.media}"
+
 
 class Episode(models.Model):
     duration = models.IntegerField(_('duration'), default=0)
     release_date = models.DateField(_('release date'), null=True, blank=True)
-    season = models.ForeignKey(Season, verbose_name=_('season'), on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, verbose_name=_('season'), on_delete=models.CASCADE, related_name="episodes")
     number = models.IntegerField(_("episode number"), null=True, blank=True)
     name = models.CharField(_('episode name'), max_length=150, null=True, blank=True)
+
+    def __str__(self) ->str:
+        return f"{self.number} {self.season}"
