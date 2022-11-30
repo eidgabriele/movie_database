@@ -14,4 +14,8 @@ admin.site.register(models.Location)
 admin.site.register(models.Genre)
 admin.site.register(models.Company)
 admin.site.register(models.Language)
+admin.site.register(models.Media)
+admin.site.register(models.CastCrew)
+admin.site.register(models.Season)
+admin.site.register(models.Episode)
 
