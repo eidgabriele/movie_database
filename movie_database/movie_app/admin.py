@@ -7,6 +7,9 @@ class PersonAdmin(admin.ModelAdmin):
 class RoleAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
+class CastCrewAdmin(admin.ModelAdmin):
+    list_display= ('person',)
+
 
 admin.site.register(models.Person, PersonAdmin)
 admin.site.register(models.Role, RoleAdmin)
@@ -15,7 +18,7 @@ admin.site.register(models.Genre)
 admin.site.register(models.Company)
 admin.site.register(models.Language)
 admin.site.register(models.Media)
-admin.site.register(models.CastCrew)
+admin.site.register(models.CastCrew, CastCrewAdmin)
 admin.site.register(models.Season)
 admin.site.register(models.Episode)
 
