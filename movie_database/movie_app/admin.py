@@ -1,9 +1,6 @@
 from django.contrib import admin
 from . import models
 
-class PersonAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'country',)
-
 
 class RoleAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -29,16 +26,36 @@ class CastCrewAdmin(admin.ModelAdmin):
     list_display= ('person', 'role', 'media',)
 
 
+class CastCrewInLine(admin.TabularInline):
+    model = models.CastCrew
+    extra = 0
+    can_delete= True
+
+
 class MediaAdmin(admin.ModelAdmin):
     list_display = ('name', 'release_date', 'duration', 'is_series',)
+    inlines = (CastCrewInLine, )
+
+
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'country',)
+    inlines = (CastCrewInLine, )
+
+
+class EpisodeInLine(admin.TabularInline):
+    model = models.Episode
+    extra = 0
+    can_delete= True
 
 
 class SeasonAdmin(admin.ModelAdmin):
     list_display = ('number', 'media',)
+    inlines = (EpisodeInLine, )
 
 
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = ('number', 'name', 'season', )
+
 
 admin.site.register(models.Person, PersonAdmin)
 admin.site.register(models.Role, RoleAdmin)

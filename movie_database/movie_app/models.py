@@ -50,7 +50,7 @@ class Genre(models.Model):
 
 
 class Company(models.Model):
-    name = models.CharField(_('genre name'), max_length=150)
+    name = models.CharField(_('company name'), max_length=150)
     country = models.CharField(_('country'), max_length=150)
 
     def __str__(self) -> str:
