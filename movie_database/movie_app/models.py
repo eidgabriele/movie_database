@@ -96,16 +96,34 @@ class Media(models.Model):
 
 
 class CastCrew(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name=_("role"), related_name='cast_crew')
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name=_("person"), related_name='cast_crew')
-    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE, related_name='cast_crew')
+    role = models.ForeignKey(Role, 
+        on_delete=models.CASCADE, 
+        verbose_name=_("role"), 
+        related_name='cast_crew'
+        )
+    person = models.ForeignKey(Person, 
+        on_delete=models.CASCADE, 
+        verbose_name=_("person"), 
+        related_name='cast_crew'
+        )
+    media = models.ForeignKey(Media, 
+        verbose_name=_("media"), 
+        on_delete=models.CASCADE, 
+        related_name='cast_crew'
+        )
 
     def __str__(self) -> str:
         return f"{self.person} - {self.role} ({self.media})"
 
     
 class Season(models.Model):
-    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE, related_name="seasons")
+    media = models.ForeignKey(Media, 
+        limit_choices_to={'is_series' : True},
+        null = True,
+        verbose_name=_("media"), 
+        on_delete=models.CASCADE, 
+        related_name="seasons"
+        )
     number = models.IntegerField(_("season number"), null=True, blank=True)
     
     def __str__(self) ->str:
