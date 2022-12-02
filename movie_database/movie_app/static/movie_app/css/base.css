@@ -1,0 +1,65 @@
+/* colours 
+#DFD0BB
+#E5BD77
+#CC7952
+#943D2C
+#474344
+*/
+
+body {
+    background-color: #DFD0BB;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+header, main, footer {
+    min-width: fit-content;
+}
+
+header {
+    background-color: #474344;
+    color: #E5BD77;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    font-size: 1.5em;
+}
+
+header .container {
+    display: flex;
+    flex-direction: row;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+header a {
+    color: #E5BD77;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: inline-block;
+    
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.2);
+    max-width: 1200px;
+    min-width: 480px;
+    margin: 0 auto;
+}
+
+footer {
+    background-color: #943D2C;
+    color: #E5BD77;
+    margin-top: auto;
+}
+
+footer .container {
+    display: flex;
+    align-content: stretch;
+}
