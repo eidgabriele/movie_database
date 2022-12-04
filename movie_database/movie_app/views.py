@@ -13,6 +13,6 @@ def media(request, media_id):
 
 class MediaListView(ListView):
     model = Media
-    template_name = 'movie_app/movies.html'
+    template_name = 'movie_app/media_list.html'
 
 

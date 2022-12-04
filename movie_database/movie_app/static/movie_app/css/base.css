@@ -109,17 +109,26 @@ ul.media_list li.media {
     border: 1px solid #999;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 0;
-    
+   
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    
+    position: relative;
 }
 
 ul.media_list li.media img {
-    max-width: 100%;    
+    display: block;
+    max-width: 100%;
 }
 
+.text-over-poster {
+    position: absolute;
+    bottom: 20px;
+    }
+h3 {
+    background-color: #474344;
+    color:#DFD0BB
+}
 ul.media_list li.media h3 {
     margin-top: 0;
 }
