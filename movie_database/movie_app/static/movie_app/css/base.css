@@ -9,7 +9,8 @@
 body {
     background-color: #DFD0BB;
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* padding: 1rem 0rem 1rem 0rem; */
+    font-family: "Ubuntu";
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -20,6 +21,15 @@ header, main, footer {
     min-width: fit-content;
 }
 
+
+main {
+    flex-grow: 1;
+}
+
+h1, h2, h3, p  {
+    font-family: "Ubuntu";
+}
+
 header {
     background-color: #474344;
     color: #E5BD77;
@@ -27,6 +37,7 @@ header {
     top: 0;
     z-index: 999;
     font-size: 1.5em;
+    min-height: 6rem;
 }
 
 header .container {
@@ -48,7 +59,7 @@ header a {
 
 .container {
     background-color: rgba(255, 255, 255, 0.2);
-    max-width: 1200px;
+    max-width: 1600px;
     min-width: 480px;
     margin: 0 auto;
 }
@@ -62,4 +73,53 @@ footer {
 footer .container {
     display: flex;
     align-content: stretch;
+}
+
+h1, h2, h3, p {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* img {
+    width: 200px;
+    height: 450px;
+    
+} */
+ul li {
+    padding: 0.2rem 1rem;
+}
+
+
+ul.media_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-content: center;
+    justify-content: center;
+}
+
+ul.media_list li.media {
+    flex-basis: 19rem;
+    border: 1px solid #999;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    
+}
+
+ul.media_list li.media img {
+    max-width: 100%;    
+}
+
+ul.media_list li.media h3 {
+    margin-top: 0;
 }

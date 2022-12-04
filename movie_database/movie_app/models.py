@@ -86,14 +86,16 @@ class Media(models.Model):
     budget = models.IntegerField(_('budget'), blank=True, null=True)
     box_office = models.IntegerField(_('box office'), blank=True, null=True)
 
-    location = models.ManyToManyField(Location, verbose_name=_('location'), blank=True, null=True)
-    genre = models.ManyToManyField(Genre, verbose_name=_('genre'), blank=True, null=True)
-    company = models.ManyToManyField(Company, verbose_name=_('company'), blank=True, null=True)
-    language = models.ManyToManyField(Language, verbose_name=_('language'), blank=True, null=True)
+    location = models.ManyToManyField(Location, verbose_name=_('location'), blank=True)
+    genre = models.ManyToManyField(Genre, verbose_name=_('genre'), blank=True)
+    company = models.ManyToManyField(Company, verbose_name=_('company'), blank=True)
+    language = models.ManyToManyField(Language, verbose_name=_('language'), blank=True)
     
     def __str__(self) -> str:
-        return f"{self.name}, {self.release_date.strftime('%Y')}"
+        return f"{self.name} ({self.release_date.strftime('%Y')})"
 
+    class Meta:
+        verbose_name = _('media')
 
 class CastCrew(models.Model):
     role = models.ForeignKey(Role, 
@@ -115,7 +117,10 @@ class CastCrew(models.Model):
     def __str__(self) -> str:
         return f"{self.person} - {self.role} ({self.media})"
 
-    
+    class Meta:
+        verbose_name = _('cast_crew')
+        verbose_name_plural = _('cast_crew')
+
 class Season(models.Model):
     media = models.ForeignKey(Media, 
         limit_choices_to={'is_series' : True},
@@ -129,6 +134,10 @@ class Season(models.Model):
     def __str__(self) ->str:
         return f"{self.number} - {self.media}"
 
+    class Meta:
+        verbose_name = _('season')
+        verbose_name_plural = _('seasons')
+
 
 class Episode(models.Model):
     duration = models.IntegerField(_('duration'), default=0)
@@ -139,3 +148,7 @@ class Episode(models.Model):
 
     def __str__(self) ->str:
         return f"{self.number} {self.season}"
+
+    class Meta:
+        verbose_name = _('episode')
+        verbose_name_plural = _('episodes')
