@@ -1,0 +1,6 @@
+{% extends 'movie_app/base.html' %}
+{% load static %}
+{% block title %} {{company.name}} {{ block.super }} {% endblock title %}
+{% block content %}
+<h1>{{company}} </h1>
+{% endblock content %}

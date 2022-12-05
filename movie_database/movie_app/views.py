@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.urls import reverse
 from django.contrib import messages
-from . models import Media, Person
+from . models import Media, Person, Company
+from django.views.generic.edit import FormMixin
 
 # Create your views here.
 
@@ -28,3 +30,10 @@ class SeriesListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(is_series=True).order_by('release_date')
         return queryset
+
+def company(request, company_id):
+    return render(request, 'movie_app/company.html', {'company': get_object_or_404(Company, id=company_id)})
+
+def person(request, person_id):
+    return render(request, 'movie_app/person.html', {'person': get_object_or_404(Person, id=person_id)})
+

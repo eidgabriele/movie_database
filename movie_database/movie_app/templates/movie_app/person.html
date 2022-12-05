@@ -1,0 +1,6 @@
+{% extends 'movie_app/base.html' %}
+{% load static %}
+{% block title %} {{person.name}} {{ block.super }} {% endblock title %}
+{% block content %}
+<h1>{{person}} </h1>
+{% endblock content %}

@@ -25,13 +25,17 @@
             <p> Cast and Crew <p>
             <ul>
             {% for castcrew  in media.cast_crew.all %}
-                <li> {{ castcrew }}</li>
+                <li> {{ castcrew }} </li>
+                
             {% endfor %}
+            {% for person in person.cast_crew.all %}
+                <li>  <a href="{% url 'person' person.pk %}"> {{ person }}</a> </li>
+                {% endfor %}
             </ul>
             <p> Produced by <p>
                 <ul>
                 {% for company  in media.company.all %}
-                    <li> {{ company }}</li>
+                    <li>  <a href="{% url 'company' company.pk %}"> {{ company }}</a> </li>
                 {% endfor %}
                 </ul>
             <p> Filming locations <p>
