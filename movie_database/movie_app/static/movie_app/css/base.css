@@ -21,7 +21,6 @@ header, main, footer {
     min-width: fit-content;
 }
 
-
 main {
     flex-grow: 1;
 }
@@ -53,12 +52,11 @@ header a {
     color: #E5BD77;
     text-decoration: none;
     padding: 0.5rem;
-    display: inline-block;
-    
+    display: inline-block;  
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.2);
+    /* background-color: rgba(255, 255, 255, 0.2); */
     max-width: 1600px;
     min-width: 480px;
     margin: 0 auto;
@@ -68,6 +66,7 @@ header a {
     border: 3px solid #fff;
     /* padding: 20px; */
     display: flex;
+    margin: 3rem 0rem 3rem 0rem;
 }
 
 .media-details {
@@ -80,6 +79,7 @@ footer {
     background-color: #943D2C;
     color: #E5BD77;
     margin-top: auto;
+    min-height: 8rem;
 }
 
 footer .container {

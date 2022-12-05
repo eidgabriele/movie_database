@@ -22,6 +22,48 @@
             <h2>{{ media.budget}}</h2>
             <h2>{{ media.box_office }}</h2>
             <h2>{{ media.summary }}</h2>
+            <p> Cast and Crew <p>
+            <ul>
+            {% for castcrew  in media.cast_crew.all %}
+                <li> {{ castcrew }}</li>
+            {% endfor %}
+            </ul>
+            <p> Produced by <p>
+                <ul>
+                {% for company  in media.company.all %}
+                    <li> {{ company }}</li>
+                {% endfor %}
+                </ul>
+            <p> Filming locations <p>
+                <ul>
+                {% for location  in media.location.all %}
+                    <li> {{ location }}</li>
+                {% endfor %}
+                </ul>
+            <p> Languages <p>
+                <ul>
+                {% for language  in media.language.all %}
+                    <li> {{ language }}</li>
+                {% endfor %}
+                </ul>
+
+
         </div>
+    </div>
     <div>
+        {% if media.is_series == True %}
+            <ul>
+                {% for season in media.seasons.all %}
+                <li>
+                    <h3> Season {{ season.number }}</h3>
+                        <ul>
+                            {% for episode in season.episodes.all %}
+                                <li> {{ episode }} <li>
+                            {% endfor %}
+                        </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock content %}
