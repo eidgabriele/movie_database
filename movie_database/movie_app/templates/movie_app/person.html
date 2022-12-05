@@ -2,5 +2,24 @@
 {% load static %}
 {% block title %} {{person.name}} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>{{person}} </h1>
+
+    <div class="media-details-container">
+        <div class="media-details">
+            {% if person.photo %}
+              <img src="{{ person.photo.url }}">
+            {% else %}
+              <img src="{%  static 'movie_app/img/no_photo.jpg' %}">
+            {% endif %}
+        </div>
+        <div class="media-details">
+            <h1>{{ person }} </h1>
+            <h3> {{ person.country }} </h3>
+            <h2> Roles </h2>
+            <ul>
+                {% for role in person.cast_crew.all  %}
+                <li> {{ role.role }} in <a href="{% url 'media' role.media.pk %}"> {{ role.media }}</a> </li>
+                {% endfor %}
+            </ul>
+        </div>
+    <div>
 {% endblock content %}

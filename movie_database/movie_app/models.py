@@ -86,10 +86,10 @@ class Media(models.Model):
     budget = models.IntegerField(_('budget'), blank=True, null=True)
     box_office = models.IntegerField(_('box office'), blank=True, null=True)
 
-    location = models.ManyToManyField(Location, verbose_name=_('location'), blank=True)
-    genre = models.ManyToManyField(Genre, verbose_name=_('genre'), blank=True)
-    company = models.ManyToManyField(Company, verbose_name=_('company'), blank=True)
-    language = models.ManyToManyField(Language, verbose_name=_('language'), blank=True)
+    location = models.ManyToManyField(Location, verbose_name=_('location'), related_name='medias', blank=True)
+    genre = models.ManyToManyField(Genre, verbose_name=_('genre'), related_name='medias', blank=True)
+    company = models.ManyToManyField(Company, verbose_name=_('company'), related_name='medias', blank=True)
+    language = models.ManyToManyField(Language, verbose_name=_('language'), related_name='medias', blank=True)
     
     def __str__(self) -> str:
         return f"{self.name} ({self.release_date.strftime('%Y')})"

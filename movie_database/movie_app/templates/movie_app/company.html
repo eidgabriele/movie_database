@@ -2,5 +2,12 @@
 {% load static %}
 {% block title %} {{company.name}} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>{{company}} </h1>
+    <h1>{{ company.name }} </h1>
+    <h2>{{ company.country }} </h2>
+        <ul>
+            {% for media in company.medias.all %}
+            <li> <a href="{% url 'media' media.pk %}">{{ media }} </a> </li>
+            {% endfor %}
+        </ul>
+
 {% endblock content %}

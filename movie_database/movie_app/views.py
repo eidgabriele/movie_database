@@ -37,3 +37,11 @@ def company(request, company_id):
 def person(request, person_id):
     return render(request, 'movie_app/person.html', {'person': get_object_or_404(Person, id=person_id)})
 
+# class CompanyListView(ListView):
+#     model = Company
+#     template_name = 'movie_app/company.html'
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         queryset = queryset.filter(company=self.name).order_by('release_date')
+#         return queryset 
