@@ -25,8 +25,7 @@
             <p> Cast and Crew <p>
             <ul>
             {% for castcrew  in media.cast_crew.all %}
-                <li> {{ castcrew }} </li>
-                
+                <li>  <a href="{% url 'person' castcrew.person.pk %}"> {{ castcrew.person }}</a> </li>
             {% endfor %}
             {% for person in person.cast_crew.all %}
                 <li>  <a href="{% url 'person' person.pk %}"> {{ person }}</a> </li>
