@@ -11,8 +11,20 @@ def index(request):
 def media(request, media_id):
     return render(request, 'movie_app/media.html', {'media': get_object_or_404(Media, id=media_id)})
 
-class MediaListView(ListView):
+class MovieListView(ListView):
     model = Media
     template_name = 'movie_app/media_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_series=False).order_by('release_date')
+        return queryset
 
+class SeriesListView(ListView):
+    model = Media
+    template_name = 'movie_app/media_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_series=True).order_by('release_date')
+        return queryset
