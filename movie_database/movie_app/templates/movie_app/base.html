@@ -13,9 +13,9 @@
         <div class="container">
             {% block nav %}
             <a href="{% url 'home_page' %}">HOME</a>
-            <a href="{% url 'movie_list' %}">MOVIES</a>
-            <a href="{% url 'series_list' %}">SERIES</a>
-            <a href="{% url 'genres' %}">GENRES</a>
+            <a href="{% url 'media_list' %}?is_series=0">MOVIES</a>
+            <a href="{% url 'media_list' %}?is_series=1">SERIES</a>
+            <a href="{% url 'media_list' %}">GENRES</a>
             {% endblock nav %}
         </div>
     </header>
