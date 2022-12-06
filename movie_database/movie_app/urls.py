@@ -8,4 +8,5 @@ urlpatterns = [
     path('series/', views.SeriesListView.as_view(), name='series_list'),
     path('companies/<int:company_id>/', views.company, name='company'),
     path('people/<int:person_id>/', views.person, name='person'),
+    path('by_genre/', views.GenreListView.as_view(), name='genres'),
 ]

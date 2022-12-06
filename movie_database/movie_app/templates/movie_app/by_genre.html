@@ -1,9 +1,16 @@
 {% extends 'movie_app/base.html' %}
 {% load static %}
-{% block title %} MOVIES {{ block.super }} {% endblock title %}
+{% block title %} Browse by genres {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>MOVIE LIST</h1>
-<p> movies go here <p>
+    <h1>Available genres </h1>
+    <div>
+        <ul>
+            {% for filter_genre in genres %} 
+                {{ filter_genre.link_filtered_medias}}
+            {% endfor %}
+        </ul>
+    </div>
+
     <ul class="media_list">
         {% for media in media_list %}
             <li class="media">
@@ -18,4 +25,5 @@
             </li>
         {% endfor %}
     </ul>
+
 {% endblock content %}

@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
+from django.utils.html import format_html
+
 
 class Role(models.Model):
     name = models.CharField(_('name'), max_length=150)
@@ -34,12 +37,17 @@ class Location(models.Model):
         return f"{self.name}, {self.country}"
 
     class Meta:
+        ordering = ['country']
         verbose_name = _('location')
         verbose_name_plural = _('locations')
 
 
 class Genre(models.Model):
     name = models.CharField(_('genre name'), max_length=150)
+
+    def link_filtered_medias(self):
+        link = reverse('genres')+'?genre_id='+str(self.id)
+        return format_html('<a class="media" href="{link}">{name}</a>', link=link, name=self.name)
 
     def __str__(self) -> str:
         return self.name
@@ -57,6 +65,7 @@ class Company(models.Model):
         return f"{self.name} ({self.country})"
 
     class Meta:
+        ordering = ['country']
         verbose_name = _('company')
         verbose_name_plural = _('companies')
 

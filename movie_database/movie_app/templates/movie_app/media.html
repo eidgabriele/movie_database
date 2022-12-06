@@ -58,7 +58,7 @@
                     <h3> Season {{ season.number }}</h3>
                         <ul>
                             {% for episode in season.episodes.all %}
-                                <li> {{ episode }} <li>
+                                <li>S{{ season.number }}E{{ episode.number }} - {{ episode.name }}<li>
                             {% endfor %}
                         </ul>
                 </li>
