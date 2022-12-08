@@ -2,6 +2,13 @@
 {% load static %}
 {% block title %} My Watchlist {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>My Watchlist</h1>
+<h1>My oooWatchlist</h1>
+<ul>
+    {% for watchlist_entry in watchlist_list %}
+       <li> {{watchlist_entry.media}}</li>
+    {% endfor %}
+</ul>
+    
+   
 
 {% endblock content %}

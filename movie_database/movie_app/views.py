@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib import messages
-from . models import Media, Person, Company, Genre, Watchlist
+from . models import Media, Person, Company, Genre, Watchlist, Location
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 
@@ -53,7 +53,7 @@ class WatchlistView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(user=self.request.user).order_by('date_added')
+        queryset = queryset.filter(list_owner=self.request.user).order_by('date_added')
+        return queryset
 
 
-    

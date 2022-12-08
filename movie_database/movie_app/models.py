@@ -81,7 +81,6 @@ class Language(models.Model):
         verbose_name = _('language')
         verbose_name_plural = _('languages')
 
-
 class Media(models.Model):
     name = models.CharField(_('movie/series name'), max_length=150)
     release_date = models.DateField(_('release date'), null=True, blank=True)
@@ -100,26 +99,26 @@ class Media(models.Model):
     genre = models.ManyToManyField(Genre, verbose_name=_('genre'), related_name='medias', blank=True)
     company = models.ManyToManyField(Company, verbose_name=_('company'), related_name='medias', blank=True)
     language = models.ManyToManyField(Language, verbose_name=_('language'), related_name='medias', blank=True)
-    
+
+
     def __str__(self) -> str:
         return f"{self.name} ({self.release_date.strftime('%Y')})"
 
     class Meta:
         verbose_name = _('media')
 
-
 class Watchlist(models.Model):
-    user = models.ForeignKey(get_user_model(),
-        verbose_name = _('user'),
+    list_owner = models.ForeignKey(get_user_model(),
+        verbose_name = _('list owner'),
         on_delete = models.SET_NULL,
         blank = True,
         null = True,
         related_name = "watchlist",)
-    media = models.ManyToManyField(Media, verbose_name=_('media'), related_name='watchlist', blank=True)
-    date_added = models.DateField(_('date added'), auto_now_add=True)
+    media = models.ForeignKey(Media, verbose_name=_('media'), on_delete=models.CASCADE, related_name='watchlist', blank=True)
+    date_added = models.DateField(_('date added'), auto_now_add=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.user}"
+        return f"{self.media.name}, {self.list_owner}"
 
 class CastCrew(models.Model):
     role = models.ForeignKey(Role, 

@@ -3,7 +3,6 @@
 {% block title %} {% if request.GET.is_series == '0' %} MOVIES {% elif request.GET.is_series == '1' %} SERIES {% else %} BROWSE BY GENRE {% endif %} {{ block.super }} {% endblock title %}
 {% block content %}
 <h1>{% if request.GET.is_series == '0' %} MOVIE LIST {% elif request.GET.is_series == '1' %} SERIES LIST {% else %}BROWSE BY GENRE {% endif %} </h1>
-
 {% if request.GET.is_series == None %}
 <div> 
     <ul>
