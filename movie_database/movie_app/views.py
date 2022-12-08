@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib import messages
-from . models import Media, Person, Company, Genre
+from . models import Media, Person, Company, Genre, Watchlist
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 
@@ -45,6 +46,14 @@ class MediaListView(ListView):
         if genre_id:
             context['genre'] = get_object_or_404(Genre, id=genre_id)
         return  context
+
+class WatchlistView(LoginRequiredMixin, ListView):
+    model = Watchlist
+    template_name = 'movie_app/user_watchlist.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user).order_by('date_added')
 
 
     

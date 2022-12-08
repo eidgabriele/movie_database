@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils.html import format_html
+from django.contrib.auth import get_user_model
 
 
 class Role(models.Model):
@@ -50,7 +51,7 @@ class Genre(models.Model):
         return format_html('<a class="media" href="{link}">{name}</a>', link=link, name=self.name)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name}"
 
     class Meta:
         verbose_name = _('genre')
@@ -74,7 +75,7 @@ class Language(models.Model):
     name = models.CharField(_('language'), max_length=150)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name}"
 
     class Meta:
         verbose_name = _('language')
@@ -105,6 +106,20 @@ class Media(models.Model):
 
     class Meta:
         verbose_name = _('media')
+
+
+class Watchlist(models.Model):
+    user = models.ForeignKey(get_user_model(),
+        verbose_name = _('user'),
+        on_delete = models.SET_NULL,
+        blank = True,
+        null = True,
+        related_name = "watchlist",)
+    media = models.ManyToManyField(Media, verbose_name=_('media'), related_name='watchlist', blank=True)
+    date_added = models.DateField(_('date added'), auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user}"
 
 class CastCrew(models.Model):
     role = models.ForeignKey(Role, 

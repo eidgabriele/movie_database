@@ -25,6 +25,7 @@
 
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}">{{ user }}</a>
+                <a href="{% url 'watchlist' %}">My Watchlist</a>
                 {% if user.is_superuser or user.is_staff %}
                     <a href="{% url 'admin:index' %}"> Admin</a>
                 {% endif %}
@@ -38,8 +39,13 @@
     </header>
     <main>
         <div class="container">
-            {% block content %} 
-            {% endblock content %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+                {% block content %} 
+                {% endblock content %}
         </div>
     </main>
     <footer>

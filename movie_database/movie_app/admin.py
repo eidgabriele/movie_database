@@ -67,4 +67,5 @@ admin.site.register(models.Media, MediaAdmin)
 admin.site.register(models.CastCrew, CastCrewAdmin)
 admin.site.register(models.Season, SeasonAdmin)
 admin.site.register(models.Episode, EpisodeAdmin)
+admin.site.register(models.Watchlist)
 
