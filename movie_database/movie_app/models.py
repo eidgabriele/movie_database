@@ -47,7 +47,7 @@ class Genre(models.Model):
     name = models.CharField(_('genre name'), max_length=150)
 
     def link_filtered_medias(self):
-        link = reverse('media_list')+'?genre_id='+str(self.id)
+        link = reverse('all_media')+'?genre_id='+str(self.id)
         return format_html('<a class="media" href="{link}">{name}</a>', link=link, name=self.name)
 
     def __str__(self) -> str:

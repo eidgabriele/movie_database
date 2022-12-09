@@ -2,12 +2,33 @@
 {% load static %}
 {% block title %} My Watchlist {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>My oooWatchlist</h1>
-<ul>
-    {% for watchlist_entry in watchlist_list %}
-       <li> {{watchlist_entry.media}}</li>
-    {% endfor %}
-</ul>
+<h1>My Watchlist</h1>
+{% comment %} <ul> {% endcomment %}
+    {% if watchlist_list %}
+    <p> You have saved {{watchlist_list.count}} entries </p>
+        {% for watchlist_entry in watchlist_list %}
+        {% comment %} <li> {% endcomment %}
+        <div class="watchlist-item">
+            {% comment %} <div class="watchlist-info"> {% endcomment %}
+            {% if watchlist_entry.media.poster %}
+                <img src="{{ watchlist_entry.media.poster.url }}">
+            {% else %}
+                <img src="{%  static 'movie_app/img/no_poster.jpg' %}">
+            {% endif %}
+            {% comment %} </div> {% endcomment %}
+            <div class="watchlist-info">
+            <a href="{% url 'media' watchlist_entry.media.pk %}">{{ watchlist_entry.media }} </a>
+            <p>Duration: {{ watchlist_entry.media.duration }}</p>
+            <p>Rating: {{ watchlist_entry.media.score }}</p>
+            </div>
+            <a class="button" href="{% url 'user_watchlist_delete' watchlist_entry.pk %}">Delete</a>
+        </div> 
+        {% endfor %}
+    {% comment %} </li> {% endcomment %}
+    {% else %}
+    <p>Looks like your watchlist is empty, you can add <a href="{% url 'all_media' %}?is_series=0">movies</a> and <a href="{% url 'all_media' %}?is_series=1">series</a>. <p>
+    {% endif %}
+{% comment %} </ul> {% endcomment %}
     
    
 

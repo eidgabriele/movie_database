@@ -139,3 +139,33 @@ h3 {
 ul.media_list li.media h3 {
     margin-top: 0;
 }
+
+.watchlist-item {
+    margin: 0.5rem;
+    display: flex;
+}
+
+.watchlist-item a {
+    text-decoration: none;
+    /* display: block; */
+    /* padding: 2rem 0.5rem 2rem; */
+}
+.watchlist-info {
+    margin: 0.5rem;
+    /* float: left; */
+    flex: 1;
+}
+/* colours 
+#DFD0BB
+#E5BD77
+#CC7952
+#943D2C
+#474344
+*/
+.watchlist-item img {
+    max-width: 5rem;
+    /* display: block; */
+    /* float: left; */
+    /* margin-right: 0.5rem; */
+    /* border-radius: 0.5rem; */
+}

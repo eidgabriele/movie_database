@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView
-from django.urls import reverse
+from django.views.generic import ListView, DetailView, DeleteView
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from . models import Media, Person, Company, Genre, Watchlist, Location
 from django.views.generic.edit import FormMixin
@@ -55,5 +55,16 @@ class WatchlistView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(list_owner=self.request.user).order_by('date_added')
         return queryset
+    
+class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Watchlist
+    template_name = 'movie_app/user_watchlist_delete.html'
+    success_url = reverse_lazy('watchlist')
 
+    def test_func(self):
+        watchlist_entry = self.get_object()
+        return self.request.user == watchlist_entry.list_owner
 
+    def form_valid(self, form):
+        watchlist_entry = self.get_object()
+        return super().form_valid(form)

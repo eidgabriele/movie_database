@@ -1,0 +1,13 @@
+{% extends 'movie_app/base.html' %}
+{% block title %}Deleting watchlist entry {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>Deleting watchlist entry</h1>
+<form method="post" action="">
+    {% csrf_token %}
+    <p>Are you sure you want to delete {{ object.book.title }} form yout watchlist?</p>
+    <p>
+        <button type="submit" class="button">YES</button>
+        <a class="button" href="{% url 'watchlist' %}">NO</a>
+    </p>
+</form>
+{% endblock content %}
