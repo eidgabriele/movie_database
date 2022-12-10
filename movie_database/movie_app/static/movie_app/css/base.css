@@ -148,6 +148,9 @@ ul.media_list li.media h3 {
     padding: 1rem;
 }
 
+.in-watchlist img {
+    border-color: #943D2C;
+}
 .watchlist-item {
     margin: 0.5rem;
     display: flex;

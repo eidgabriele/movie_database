@@ -112,6 +112,17 @@ class Media(models.Model):
             self.duration = self.series_length
         super(Media, self).save(*args, **kwargs)
 
+    @property
+    def convert_time(self):
+        readable_time = ""
+        hours = self.duration // 60 
+        minutes = self.duration % 60 
+        if hours != 0:
+            readable_time += f"{hours}h  "
+        if minutes != 0:
+            readable_time += f"{minutes}min"
+        return readable_time
+
     def __str__(self) -> str:
         return f"{self.name} ({self.release_date.strftime('%Y')})"
 
@@ -130,6 +141,7 @@ class Watchlist(models.Model):
 
     def __str__(self) -> str:
         return f"{self.media.name}, {self.list_owner}"
+
 
 class CastCrew(models.Model):
     role = models.ForeignKey(Role, 

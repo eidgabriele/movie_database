@@ -5,7 +5,7 @@
 <h1>My Watchlist</h1>
 {% comment %} <ul> {% endcomment %}
     {% if watchlist_list %}
-    <p> You have saved {{watchlist_list.count}} entries </p>
+    <p> You have saved {{watchlist_list.count}} entries, thats {{converted_time}} </p>
         {% for watchlist_entry in watchlist_list %}
         {% comment %} <li> {% endcomment %}
         <div class="watchlist-item">

@@ -73,6 +73,26 @@ class WatchlistView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(list_owner=self.request.user).order_by('date_added')
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queried_watchlist = self.object_list
+        watchlist_duration = 0
+        for entry in queried_watchlist:
+            watchlist_duration += entry.media.duration
+        readable_time = ""
+        days = watchlist_duration // 1440
+        hours = (watchlist_duration % 1440) // 60 
+        minutes = (watchlist_duration % 1440) % 60 
+        if days != 0:
+            readable_time += f"{days} days "
+        if hours != 0:
+            readable_time += f"{hours} hours "
+        if minutes != 0:
+            readable_time += f"{minutes} minutes"
+        context['converted_time'] = readable_time
+        return context
+
     
 
 class WatchlistCreate(LoginRequiredMixin, CreateView):
