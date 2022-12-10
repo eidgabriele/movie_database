@@ -48,6 +48,23 @@ class MediaListView(ListView):
             context['genre'] = get_object_or_404(Genre, id=genre_id)
         return  context
 
+
+class MediaDetailView(DetailView):
+    model = Media
+    template_name = 'movie_app/media.html'
+
+    def get_success_url(self):
+        return reverse('media', kwargs={'pk' : self.get_object().id})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if Watchlist.objects.filter(list_owner=self.request.user, media=self.object).exists():
+            context['in_watchlist'] = True
+        else:
+            context['in_watchlist'] = False
+        return context
+    
+
 class WatchlistView(LoginRequiredMixin, ListView):
     model = Watchlist
     template_name = 'movie_app/user_watchlist.html'
@@ -70,8 +87,7 @@ class WatchlistCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        id = self.kwargs['pk']
-        return reverse_lazy('media', kwargs={'media_id': id })
+        return reverse_lazy('media', kwargs={'pk': self.kwargs['pk'] })
 
 
 class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -85,4 +101,5 @@ class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def form_valid(self, form):
         watchlist_entry = self.get_object()
+        messages.success(self.request, f'{watchlist_entry.media.name} was removed from your watchlist.')
         return super().form_valid(form)

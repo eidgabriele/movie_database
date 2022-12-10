@@ -1,49 +1,53 @@
 {% extends 'movie_app/base.html' %}
 {% load static %}
-{% block title %} {{media}} {{ block.super }} {% endblock title %}
+{% block title %} {{object}} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>{{media}} </h1>
+<h1>{{object}} </h1>
     <div class="media-details-container">
         <div class="media-details">
-            {% if media.poster %}
-              <img src="{{media.poster.url}}">
+            {% if object.poster %}
+              <img src="{{object.poster.url}}">
             {% else %}
               <img src="{%  static 'movie_app/img/no_poster.jpg' %}">
             {% endif %}
         </div>
 
         <div class="media-details">
-                <p><a class="add-to-watchlist" href="{% url 'user_watchlist_create' media.pk %}">add to watchlist</a></p>
-            <h1>{{ media.name }} </h1>
-            <h2>{{ media.release_date }}</h2>
-            <h2>{{ media.score }}</h2>
-            <h2>{{ media.duration }} mins</h2>
-            <h2>{{ media.pg_rating }}</h2>
-            <h2>{{ media.tagline }}</h2>
-            <h2>{{ media.budget}}</h2>
-            <h2>{{ media.box_office }}</h2>
-            <h2>{{ media.summary }}</h2>
+            {% if in_watchlist %}
+                <p><a class="add-to-watchlist" href="{% url 'watchlist' %}"">In your watchlist</a></p>
+            {% else %}
+                <p><a class="add-to-watchlist" href="{% url 'user_watchlist_create' object.pk %}">Add to your watchlist</a></p>
+            {% endif %}
+            <h1>{{ object.name }} </h1>
+            <h2>{{ object.release_date }}</h2>
+            <h2>{{ object.score }}</h2>
+            <h2>{{ object.duration }} mins</h2>
+            <h2>{{ object.pg_rating }}</h2>
+            <h2>{{ object.tagline }}</h2>
+            <h2>{{ object.budget}}</h2>
+            <h2>{{ object.box_office }}</h2>
+            <h2>{{ object.summary }}</h2>
             <p> Cast and Crew <p>
             <ul>
-            {% for castcrew  in media.cast_crew.all %}
+            {% for castcrew  in object.cast_crew.all %}
                 <li>  <a href="{% url 'person' castcrew.person.pk %}"> {{ castcrew.person }}</a> </li>
             {% endfor %}
             </ul>
             <p> Produced by <p>
                 <ul>
-                {% for company  in media.company.all %}
+                {% for company  in object.company.all %}
                     <li>  <a href="{% url 'company' company.pk %}"> {{ company }}</a> </li>
                 {% endfor %}
                 </ul>
             <p> Filming locations <p>
                 <ul>
-                {% for location  in media.location.all %}
+                {% for location  in object.location.all %}
                     <li> {{ location }}</li>
                 {% endfor %}
                 </ul>
             <p> Languages <p>
                 <ul>
-                {% for language  in media.language.all %}
+                {% for language  in object.language.all %}
                     <li> {{ language }}</li>
                 {% endfor %}
                 </ul>
@@ -51,9 +55,9 @@
             </div>
     </div>
     <div>
-        {% if media.is_series == True %}
+        {% if object.is_series == True %}
             <ul>
-                {% for season in media.seasons.all %}
+                {% for season in object.seasons.all %}
                 <li>
                     <h3> Season {{ season.number }}</h3>
                         <ul>
