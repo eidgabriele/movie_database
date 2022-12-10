@@ -140,6 +140,14 @@ ul.media_list li.media h3 {
     margin-top: 0;
 }
 
+.add-to-watchlist {
+    color: #DFD0BB;
+    background-color: #943D2C;
+    float: right;
+    font-size: 1.5em;
+    padding: 1rem;
+}
+
 .watchlist-item {
     margin: 0.5rem;
     display: flex;

@@ -1,0 +1,12 @@
+{% extends 'movie_app/base.html' %}
+{% block title %}Adding to watchlist {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>Adding to watchlist</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Are you sure you want to add {{ object.media.name }} to your watchlist?</p>
+    <button type="submit" class="button">YES</button>
+    <a class="button" href="{% url 'watchlist' %}">NO</a>
+</form>
+{% endblock content %}

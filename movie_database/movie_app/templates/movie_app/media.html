@@ -13,6 +13,7 @@
         </div>
 
         <div class="media-details">
+                <p><a class="add-to-watchlist" href="{% url 'user_watchlist_create' media.pk %}">add to watchlist</a></p>
             <h1>{{ media.name }} </h1>
             <h2>{{ media.release_date }}</h2>
             <h2>{{ media.score }}</h2>
@@ -47,8 +48,7 @@
                 {% endfor %}
                 </ul>
 
-
-        </div>
+            </div>
     </div>
     <div>
         {% if media.is_series == True %}

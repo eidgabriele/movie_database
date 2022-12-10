@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import ListView, DetailView, DeleteView, CreateView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from . models import Media, Person, Company, Genre, Watchlist, Location
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
+from . forms import WatchlistForm
 
 
 def index(request):
@@ -56,6 +57,23 @@ class WatchlistView(LoginRequiredMixin, ListView):
         queryset = queryset.filter(list_owner=self.request.user).order_by('date_added')
         return queryset
     
+
+class WatchlistCreate(LoginRequiredMixin, CreateView):
+    model = Watchlist
+    form_class = WatchlistForm
+    template_name = 'movie_app/user_watchlist_add.html'
+
+    def form_valid(self, form):
+        form.instance.list_owner = self.request.user
+        form.instance.media = Media.objects.get(pk=self.kwargs['pk'])
+        messages.success(self.request, f'{form.instance.media.name} was added to your watchlist!')
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        id = self.kwargs['pk']
+        return reverse_lazy('media', kwargs={'media_id': id })
+
+
 class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Watchlist
     template_name = 'movie_app/user_watchlist_delete.html'
