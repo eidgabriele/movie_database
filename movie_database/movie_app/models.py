@@ -100,6 +100,17 @@ class Media(models.Model):
     company = models.ManyToManyField(Company, verbose_name=_('company'), related_name='medias', blank=True)
     language = models.ManyToManyField(Language, verbose_name=_('language'), related_name='medias', blank=True)
 
+    @property
+    def series_length(self):
+            length = 0
+            for season in self.seasons.all():
+                length += season.season_length
+            return length
+
+    def save(self, *args, **kwargs):
+        if self.is_series:
+            self.duration = self.series_length
+        super(Media, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.name} ({self.release_date.strftime('%Y')})"
@@ -154,6 +165,13 @@ class Season(models.Model):
         )
     number = models.IntegerField(_("season number"), null=True, blank=True)
     
+    @property
+    def season_length(self):
+        length = 0
+        for episode in self.episodes.all():
+            length += episode.duration
+        return length
+            
     def __str__(self) ->str:
         return f"{self.number} - {self.media}"
 
