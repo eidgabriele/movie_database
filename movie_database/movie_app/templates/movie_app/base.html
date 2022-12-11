@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} MOvie db {{ block.super }} {% endblock title %}</title>
+    <title>{% block title %} Movie db {{ block.super }} {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'movie_app/css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu" />
 </head>
@@ -16,15 +16,9 @@
             <a href="{% url 'all_media' %}?is_series=0">MOVIES</a>
             <a href="{% url 'all_media' %}?is_series=1">SERIES</a>
             <a href="{% url 'all_media' %}">GENRES</a>
-            
-
-            <form action="{% url 'all_media' %}" method="get">
-                <input type="text" name="search" value="{{ request.GET.search }}">
-                <button type="submit">search</button>
-            </form>
-
+            <div class="right-side">
             {% if user.is_authenticated %}
-                <a href="{% url 'profile' %}">{{ user }}</a>
+                <a class="user-name" href="{% url 'profile' %}">Hi, {{ user }}!</a>
                 <a href="{% url 'watchlist' %}">My Watchlist</a>
                 {% if user.is_superuser or user.is_staff %}
                     <a href="{% url 'admin:index' %}"> Admin</a>
@@ -34,6 +28,7 @@
                 <a href = "{% url 'register' %}">Register</a>
                 <a href="{% url 'login' %}{% if not '/accounts/' in request.path %}?next={{ request.path }}{% endif %}">Login</a>
             {% endif %}
+            </div>
             {% endblock nav %}
         </div>
     </header>

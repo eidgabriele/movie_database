@@ -3,11 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, DeleteView, CreateView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from . models import Media, Person, Company, Genre, Watchlist, Location
+from . models import Media, Person, Company, Genre, Watchlist
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 from . forms import WatchlistForm
-
 
 def index(request):
     return render(request,'movie_app/home_page.html')
@@ -23,16 +22,14 @@ def person(request, person_id):
 
 class MediaListView(ListView):
     model = Media
+    paginate_by = 10
     template_name = 'movie_app/media_list.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
         search = self.request.GET.get('search')
         if search:
-            queryset = queryset.filter(
-            Q(name__icontains=search) | 
-            Q(cast_crew__person__first_name__icontains=search) |
-            Q(cast_crew__person__last_name__icontains=search))
+            queryset = queryset.filter(Q(name__icontains=search)) 
         if self.request.GET.get("is_series") != None:
             queryset = queryset.filter(is_series=self.request.GET.get("is_series"))
         genre_id = self.request.GET.get('genre_id')
@@ -67,6 +64,7 @@ class MediaDetailView(DetailView):
 
 class WatchlistView(LoginRequiredMixin, ListView):
     model = Watchlist
+    paginate_by = 10
     template_name = 'movie_app/user_watchlist.html'
 
     def get_queryset(self):
@@ -91,6 +89,7 @@ class WatchlistView(LoginRequiredMixin, ListView):
         if minutes != 0:
             readable_time += f"{minutes} minutes"
         context['converted_time'] = readable_time
+        context['watchlist_count'] = queried_watchlist.count()
         return context
 
     
@@ -123,3 +122,22 @@ class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         watchlist_entry = self.get_object()
         messages.success(self.request, f'{watchlist_entry.media.name} was removed from your watchlist.')
         return super().form_valid(form)
+
+
+# class SearchResultsView(ListView):
+#     template_name = 'movie_app/search_results.html'
+#     paginate_by = 20
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         search = self.request.GET.get('search')
+#         if search:
+            
+#             media_results = Media.objects.filter(Q(name__icontains=search))
+#             person_results = Person.objects.filter(Q(first_name__icontains=search)|
+#                             Q(last_name__icontains=search))
+#             company_results = Company.objects.filter(name__icontains=search)
+
+#         queryset = chain(media_results, person_results, company_results)
+#         return queryset
+       

@@ -2,12 +2,14 @@
 {% block title %}Deleting watchlist entry {{ block.super }}{% endblock title %}
 {% block content %}
 <h1>Deleting watchlist entry</h1>
+<div class="confirmation-message">
 <form method="post" action="">
     {% csrf_token %}
-    <p>Are you sure you want to delete {{ object.media.name }} form your watchlist?</p>
-    <p>
+    <p>Are you sure you want to delete {{ object.media.name }} from your watchlist?</p>
+        <div class="confirmation-message-buttons">
         <button type="submit" class="button">YES</button>
-        <a class="button" href="{% url 'watchlist' %}">NO</a>
-    </p>
+        <button class="button" href="{% url 'watchlist' %}">NO</button>
+        </div>
 </form>
+</div>
 {% endblock content %}

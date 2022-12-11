@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %} {{object}} {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>{{object}} </h1>
+{% comment %} <h1>{{object}} </h1> {% endcomment %}
     <div class="media-details-container">
         <div class="media-details">
             {% if object.poster %}
@@ -11,51 +11,57 @@
               <img src="{%  static 'movie_app/img/no_poster.jpg' %}">
             {% endif %}
         </div>
-
-        <div class="media-details">
+        <div class="media-details media-backg">
             {% if in_watchlist %}
-                <p><a class="add-to-watchlist" href="{% url 'watchlist' %}"">In your watchlist</a></p>
+                <p><a class="add-to-watchlist" href="{% url 'watchlist' %}">In your watchlist</a></p>
             {% else %}
                 <p><a class="add-to-watchlist" href="{% url 'user_watchlist_create' object.pk %}">Add to your watchlist</a></p>
             {% endif %}
             <h1>{{ object.name }} </h1>
-            <h2>{{ object.release_date }}</h2>
-            <h2>{{ object.score }}</h2>
-            <h2>{{ object.duration }} mins</h2>
-            <h2>{{ object.convert_time }} </h2>
-            <h2>{{ object.pg_rating }}</h2>
-            <h2>{{ object.tagline }}</h2>
-            <h2>{{ object.budget}}</h2>
-            <h2>{{ object.box_office }}</h2>
-            <h2>{{ object.summary }}</h2>
-            <p> Cast and Crew <p>
+            {% if object.release_date %}<h2>Release date {{ object.release_date }}</h2>{% endif %}
+            {% if object.score %}<h2>Score {{ object.score }}</h2>{% endif %}
+            {% if object.convert_time %}<h2>Duration {{ object.convert_time }} </h2>{% endif %}
+            {% if object.pg_rating%}<h2>Rated {{ object.pg_rating }}</h2>{% endif %}
+            {% if object.tagline %}<h2>Tagline: {{ object.tagline }}</h2>{% endif %}
+            {% if object.budget %}<h2>Budget - {{ object.budget}}$</h2>{% endif %}
+            {% if object.box_office %}<h2>Box office - {{ object.box_office }}$</h2>{% endif %}
+            {% if object.summary %}<h2>Summary: {{ object.summary }}</h2>{% endif %}
+            {% if object.cast_crew.count %}
+            <h3> Cast and Crew </h3>
             <ul>
             {% for castcrew  in object.cast_crew.all %}
-                <li>  <a href="{% url 'person' castcrew.person.pk %}"> {{ castcrew.person }}</a> </li>
+                <li>  {{castcrew.role}} <a class="cast" href="{% url 'person' castcrew.person.pk %}" > {{ castcrew.person }}</a> </li>
             {% endfor %}
             </ul>
-            <p> Produced by <p>
+            {% endif %}
+            {% if object.company.count %}
+            <h3> Produced by</h3>
                 <ul>
                 {% for company  in object.company.all %}
-                    <li>  <a href="{% url 'company' company.pk %}"> {{ company }}</a> </li>
+                    <li>  <a class="cast" href="{% url 'company' company.pk %}"> {{ company }}</a> </li>
                 {% endfor %}
                 </ul>
-            <p> Filming locations <p>
+            {% endif %}
+            {% if object.location.count %}
+            <h3>Filming locations</h3>
                 <ul>
                 {% for location  in object.location.all %}
                     <li> {{ location }}</li>
                 {% endfor %}
                 </ul>
-            <p> Languages <p>
+            {% endif %}
+            {% if object.language.count %}
+            <h3>Languages</h3>
                 <ul>
                 {% for language  in object.language.all %}
                     <li> {{ language }}</li>
                 {% endfor %}
                 </ul>
+                {% endif %}
 
             </div>
     </div>
-    <div>
+    <div class="series">
         {% if object.is_series == True %}
             <ul>
                 {% for season in object.seasons.all %}

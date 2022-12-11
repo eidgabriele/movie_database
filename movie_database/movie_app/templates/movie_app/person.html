@@ -17,7 +17,7 @@
             <h2> Roles </h2>
             <ul>
                 {% for role in person.cast_crew.all  %}
-                <li> {{ role.role }} in <a href="{% url 'media' role.media.pk %}"> {{ role.media }}</a> </li>
+                <li> {{ role.role }} in <a class="cast" href="{% url 'media' role.media.pk %}"> {{ role.media }}</a> </li>
                 {% endfor %}
             </ul>
         </div>

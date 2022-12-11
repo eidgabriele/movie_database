@@ -48,7 +48,7 @@ class Genre(models.Model):
 
     def link_filtered_medias(self):
         link = reverse('all_media')+'?genre_id='+str(self.id)
-        return format_html('<a class="media" href="{link}">{name}</a>', link=link, name=self.name)
+        return format_html('<a class="genre" href="{link}">{name}</a>', link=link, name=self.name)
 
     def __str__(self) -> str:
         return f"{self.name}"

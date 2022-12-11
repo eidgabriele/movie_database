@@ -4,15 +4,22 @@
 {% block content %}
 <h1>{% if request.GET.is_series == '0' %} MOVIE LIST {% elif request.GET.is_series == '1' %} SERIES LIST {% else %}BROWSE BY GENRE {% endif %} </h1>
 {% if request.GET.is_series == None %}
-<div> 
-    <ul>
+<div class="genre_filter">
+    <ul> 
         {{ request.GET.is_series}}
         {% for filter_genre in genres %} 
-            {{ filter_genre.link_filtered_medias}}
+        <li class="{% if filter_genre == genre %} current {% endif %}">  {{ filter_genre.link_filtered_medias}}<li>
         {% endfor %}
-    </ul>
+        </ul>
 </div>
 {% endif %}
+
+<div class="search">
+<form action="{% url 'all_media' %}" method="get">
+    <input  type="text" name="search" value="{{ request.GET.search }}">
+    <button type="submit">search</button>
+</form>
+</div>
 
     <ul class="media_list">
         {% for media in media_list %}
@@ -28,4 +35,16 @@
             </li>
         {% endfor %}
     </ul>
+
+    <div class="paginator">
+        {% if page_obj.has_previous%}
+        <a href="?page=1">|&#11207;</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&#11207;</a>
+    {% endif %}
+    {{ page_obj.number }} 
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">&#11208;</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">&#11208;|</a>
+    {% endif %}
+    </div>
 {% endblock content %}

@@ -2,33 +2,43 @@
 {% load static %}
 {% block title %} My Watchlist {{ block.super }} {% endblock title %}
 {% block content %}
-<h1>My Watchlist</h1>
-{% comment %} <ul> {% endcomment %}
-    {% if watchlist_list %}
-    <p> You have saved {{watchlist_list.count}} entries, thats {{converted_time}} </p>
+{% if watchlist_list %}
+<div class="watchlist-container">
+<h1> You have plans for {{converted_time}}</h1>
+    <p> You have saved {{watchlist_count}} entries in the watchlist.</p>
         {% for watchlist_entry in watchlist_list %}
-        {% comment %} <li> {% endcomment %}
         <div class="watchlist-item">
-            {% comment %} <div class="watchlist-info"> {% endcomment %}
+            
             {% if watchlist_entry.media.poster %}
                 <img src="{{ watchlist_entry.media.poster.url }}">
             {% else %}
                 <img src="{%  static 'movie_app/img/no_poster.jpg' %}">
             {% endif %}
-            {% comment %} </div> {% endcomment %}
+            
             <div class="watchlist-info">
             <a href="{% url 'media' watchlist_entry.media.pk %}">{{ watchlist_entry.media }} </a>
-            <p>Duration: {{ watchlist_entry.media.duration }}</p>
+            <p>Duration: {{ watchlist_entry.media.convert_time }}</p>
             <p>Rating: {{ watchlist_entry.media.score }}</p>
             </div>
-            <a class="button" href="{% url 'user_watchlist_delete' watchlist_entry.pk %}">Delete</a>
+            <a class="button" href="{% url 'user_watchlist_delete' watchlist_entry.pk %}">X</a>
         </div> 
         {% endfor %}
-    {% comment %} </li> {% endcomment %}
+        <div class="paginator">
+            {% if page_obj.has_previous%}
+            <a href="?page=1">|&#11207;</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&#11207;</a>
+        {% endif %}
+        {{ page_obj.number }} 
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&#11208;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">&#11208;|</a>
+        {% endif %}
+        </div>
     {% else %}
-    <p>Looks like your watchlist is empty, you can add <a href="{% url 'all_media' %}?is_series=0">movies</a> and <a href="{% url 'all_media' %}?is_series=1">series</a>. <p>
-    {% endif %}
-{% comment %} </ul> {% endcomment %}
+    <p>Looks like your watchlist is empty, you can choose some <a href="{% url 'all_media' %}?is_series=0">movies here</a> and <a href="{% url 'all_media' %}?is_series=1">series here</a>. <p>
+    </div>
+{% endif %}
+
     
    
 
