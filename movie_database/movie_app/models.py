@@ -142,6 +142,10 @@ class Watchlist(models.Model):
     def __str__(self) -> str:
         return f"{self.media.name}, {self.list_owner}"
 
+    class Meta:
+        verbose_name = _('watchlist')
+        verbose_name_plural = _('watchlists')
+
 
 class CastCrew(models.Model):
     role = models.ForeignKey(Role, 
@@ -165,7 +169,6 @@ class CastCrew(models.Model):
 
     class Meta:
         verbose_name = _('cast_crew')
-        verbose_name_plural = _('cast_crew')
 
 class Season(models.Model):
     media = models.ForeignKey(Media, 
@@ -205,3 +208,16 @@ class Episode(models.Model):
     class Meta:
         verbose_name = _('episode')
         verbose_name_plural = _('episodes')
+
+
+class MediaComment(models.Model):
+    media = models.ForeignKey(Media, verbose_name=_("media"), on_delete=models.CASCADE, related_name='comments')
+    comment_author = models.ForeignKey(get_user_model(), verbose_name=_("comment author"), on_delete=models.CASCADE, related_name='comments')
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+    comment = models.TextField(_("comment"), max_length=10000)
+
+    def __str__(self):
+        return f"{self.comment_author} on {self.media} at {self.created_at}"
+
+    class Meta:
+        ordering = ['-created_at',]

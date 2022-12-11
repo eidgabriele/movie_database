@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %} {{object}} {{ block.super }} {% endblock title %}
 {% block content %}
-{% comment %} <h1>{{object}} </h1> {% endcomment %}
     <div class="media-details-container">
         <div class="media-details">
             {% if object.poster %}
@@ -77,4 +76,27 @@
             </ul>
         {% endif %}
     </div>
+    {% if user.is_authenticated %}
+    <div class="comment-form">
+        <h3>You can leave a comment here:</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button" type="submit"> Add a comment </button>
+        </form>    
+    </div>
+    {% endif %}
+    {% if object.comments.count %}
+    <h2> COMMENTS </h2>
+        {% for comment in object.comments.all%}
+            <div class="media-comment">
+                <h4> {% if comment.comment_author.profile.photo %}
+                    <img src="{{ comment.comment_author.profile.photo.url}}">
+                    {% endif %}
+                {{ comment.comment_author }} 
+                    <span class="float-right"> {{ comment.created_at }}</span></h4>
+                <p>{{ comment.comment }} </p>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock content %}

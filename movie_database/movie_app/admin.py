@@ -56,6 +56,8 @@ class SeasonAdmin(admin.ModelAdmin):
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = ('number', 'name', 'season', )
 
+class MediaCommentAdmin(admin.ModelAdmin):
+    list_display = ('media', 'comment_author', 'created_at',)
 
 admin.site.register(models.Person, PersonAdmin)
 admin.site.register(models.Role, RoleAdmin)
@@ -68,4 +70,5 @@ admin.site.register(models.CastCrew, CastCrewAdmin)
 admin.site.register(models.Season, SeasonAdmin)
 admin.site.register(models.Episode, EpisodeAdmin)
 admin.site.register(models.Watchlist)
+admin.site.register(models.MediaComment, MediaCommentAdmin)
 

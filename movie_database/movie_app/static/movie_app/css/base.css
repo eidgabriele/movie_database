@@ -80,7 +80,9 @@ header a:hover {
     min-width: 480px;
     margin: 0 auto;
 }
-
+.photo-size {
+    max-width: 20rem;
+}
 .media-details-container {
     display: flex;
     margin: 3rem 0rem 5rem 0rem;
@@ -100,9 +102,43 @@ header a:hover {
 .series {
     margin: 0rem 1rem 5rem;
 }
-/* .series ul {
-    display: s;
-} */
+
+.media-comment h4 img {
+    max-height: 2rem;
+    float: left;
+    margin-right: 0.5rem;
+    border-radius: 0.1rem;
+}
+
+.media-comment p {
+   
+    border: 3px solid #943D2C;
+    padding: 0.5rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
+}
+
+.media-comment h4 {
+    background-color: #E5BD77;
+    display: block;
+    padding: 1rem 1rem;
+    margin: 1rem;
+}
+.comment-form label {
+    display: none;
+}
+.comment-form {
+    background-color:#474344;
+}
+.comment-form textarea {
+    margin: 0.5rem;
+    width: 98%;
+}
+
+
+.float-right {
+    float: right;
+}
+
 footer {
     background-color: #943D2C;
     color: #E5BD77;

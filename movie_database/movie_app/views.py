@@ -6,7 +6,8 @@ from django.contrib import messages
 from . models import Media, Person, Company, Genre, Watchlist
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
-from . forms import WatchlistForm
+from . forms import WatchlistForm, MediaCommentForm
+from django.utils.translation import gettext_lazy as _
 
 def index(request):
     return render(request,'movie_app/home_page.html')
@@ -46,12 +47,35 @@ class MediaListView(ListView):
         return  context
 
 
-class MediaDetailView(DetailView):
+class MediaDetailView(FormMixin, DetailView):
     model = Media
     template_name = 'movie_app/media.html'
+    form_class = MediaCommentForm
 
     def get_success_url(self):
         return reverse('media', kwargs={'pk' : self.get_object().id})
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            messages.error(self.request, _("Please don't spam!"))
+            return self.form_valid(form)
+        
+    def get_initial(self):
+        return {
+            'media' : self.get_object(),
+            'comment_author' : self.request.user,
+        }
+    
+    def form_valid(self, form):
+        form.instance.media = self.get_object()
+        form.instance.comment_author = self.request.user
+        form.save()
+        messages.success(self.request, _('Your comment has been posted!'))
+        return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -122,22 +146,3 @@ class WatchlistDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         watchlist_entry = self.get_object()
         messages.success(self.request, f'{watchlist_entry.media.name} was removed from your watchlist.')
         return super().form_valid(form)
-
-
-# class SearchResultsView(ListView):
-#     template_name = 'movie_app/search_results.html'
-#     paginate_by = 20
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         search = self.request.GET.get('search')
-#         if search:
-            
-#             media_results = Media.objects.filter(Q(name__icontains=search))
-#             person_results = Person.objects.filter(Q(first_name__icontains=search)|
-#                             Q(last_name__icontains=search))
-#             company_results = Company.objects.filter(name__icontains=search)
-
-#         queryset = chain(media_results, person_results, company_results)
-#         return queryset
-       
